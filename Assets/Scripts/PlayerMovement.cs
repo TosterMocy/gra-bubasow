@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float movementSpeed = 20f;
+    public float movementSpeed = 1f;
 
     private Vector2 directionOfMovement;
 
@@ -15,20 +15,21 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = this.GetComponent<Rigidbody2D>();
     }
-    
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A)) directionOfMovement = new Vector2(-1, 0);
+        if (Input.GetKeyDown(KeyCode.D)) directionOfMovement = new Vector2(1, 0);
+        if (!Input.anyKeyDown)directionOfMovement = Vector2.Lerp(directionOfMovement,Vector2.zero, 0.1f);
+    }
 
     private void FixedUpdate()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            directionOfMovement = Vector2.left;
-            rb.AddForce(directionOfMovement*movementSpeed);
-        }
-        
-        if(Input.GetKeyDown(KeyCode.D))
-        {
-            directionOfMovement = Vector2.right;
-            rb.AddForce(directionOfMovement*movementSpeed);
-        }
+        MoveCharacter(directionOfMovement);
+    }
+
+    void MoveCharacter(Vector2 vec)
+    {
+        rb.MovePosition((Vector2)transform.position + (vec * movementSpeed * Time.deltaTime));
     }
 }
