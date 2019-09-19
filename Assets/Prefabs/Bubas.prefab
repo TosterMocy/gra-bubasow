@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7143268847773569859}
   - component: {fileID: 7143268847773569869}
   - component: {fileID: 7143268847773569868}
+  - component: {fileID: 4210602823920538027}
   m_Layer: 0
   m_Name: Bubas
   m_TagString: Untagged
@@ -119,3 +120,16 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.16, y: 0.16}
   m_Direction: 0
+--- !u!114 &4210602823920538027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7143268847773569856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0bfff3c871c6664a845cc00c76d3c67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 10
