@@ -6,8 +6,10 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float movementSpeed = 1f;
+    public float jumpSpeed = 2f;
 
     private Vector2 directionOfMovement;
+    private float horizontalMovement;
 
     private Rigidbody2D rb;
 
@@ -18,18 +20,24 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A)) directionOfMovement = new Vector2(-1, 0);
-        if (Input.GetKeyDown(KeyCode.D)) directionOfMovement = new Vector2(1, 0);
-        if (!Input.anyKeyDown)directionOfMovement = Vector2.Lerp(directionOfMovement,Vector2.zero, 0.1f);
+        horizontalMovement = Input.GetAxis("Horizontal");
+        directionOfMovement = new Vector2(horizontalMovement,0);
     }
 
     private void FixedUpdate()
     {
         MoveCharacter(directionOfMovement);
+
+        if (Input.GetKey(KeyCode.Space)) Jump();
     }
 
-    void MoveCharacter(Vector2 vec)
+    void MoveCharacter(Vector2 dir)
     {
-        rb.MovePosition((Vector2)transform.position + (vec * movementSpeed * Time.deltaTime));
+        rb.MovePosition((Vector2)transform.position + (Time.deltaTime * movementSpeed * dir));
+    }
+
+    void Jump()
+    {
+        //rb.AddForce(Vector2.up * jumpSpeed);
     }
 }
