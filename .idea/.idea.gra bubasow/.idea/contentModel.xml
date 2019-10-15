@@ -6,6 +6,9 @@
     <e p="D:\dokumenty\unity projects\gra bubasow\gra bubasow" t="IncludeRecursive">
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
+        <e p="MeshDeformer.cs" t="Include" />
+        <e p="MeshDeformerInput.cs" t="Include" />
+        <e p="PlayerMovement3D.cs" t="Include" />
         <e p="Scripts" t="Include">
           <e p="CameraController.cs" t="Include" />
           <e p="PlayerMovement.cs" t="Include" />
