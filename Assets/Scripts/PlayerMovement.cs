@@ -21,13 +21,13 @@ public class PlayerMovement : MonoBehaviour
         rb = this.GetComponent<Rigidbody>();
         playerScaleX = transform.localScale.x;
     }
-
+    
     private void Update()
     {
         
         
         //jumping
-        if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W)))
+        if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W)))
         {
             if (isGrounded)
             {
@@ -35,10 +35,21 @@ public class PlayerMovement : MonoBehaviour
             }
         }
         
-        
         horizontalMovement = Input.GetAxis("Horizontal");
+
+        if (!isGrounded && horizontalMovement < 0)
+        {
+            directionOfMovement = new Vector2(-1,verticalMovement);
+        }
+        else if (!isGrounded && horizontalMovement > 0)
+        {
+            directionOfMovement = new Vector2(1,verticalMovement);
+        }
+        else if(isGrounded)
+        {
+            directionOfMovement = new Vector2(horizontalMovement,verticalMovement);
+        }
         
-        directionOfMovement = new Vector2(horizontalMovement,verticalMovement) ;
     }
 
     private void FixedUpdate()
@@ -48,10 +59,13 @@ public class PlayerMovement : MonoBehaviour
 
     void MoveCharacter(Vector2 dir)
     {
-        rb.MovePosition((Vector2)transform.position + (Time.deltaTime * movementSpeed * dir));
+        
+        //rb.MovePosition((Vector2)transform.position + (Time.deltaTime * movementSpeed * dir));
+       
+        transform.position = (Vector2)transform.position + (Time.deltaTime * movementSpeed * dir);
+        
         if (dir.x < 0) playerScaleX = -1;
         if (dir.x > 0) playerScaleX = 1;
-
         transform.localScale = new Vector3(playerScaleX, 1f, 1f);
 
     }
