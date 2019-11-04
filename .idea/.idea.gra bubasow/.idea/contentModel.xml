@@ -13,6 +13,7 @@
         <e p="Scripts" t="Include">
           <e p="CameraController.cs" t="Include" />
           <e p="EnemyMovement.cs" t="Include" />
+          <e p="PlayerHealth.cs" t="Include" />
           <e p="PlayerMovement.cs" t="Include" />
           <e p="PlayerMovement2.cs" t="Include" />
         </e>

@@ -6,7 +6,7 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
     //public float movementSpeed = 10f;
-    public float jumpHeight = 5f;
+    public float jumpHeight = 200f;
     
     private Rigidbody rb;
     private Transform destination;
@@ -44,5 +44,11 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            
+        }
+    }
 }
