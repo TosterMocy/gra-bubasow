@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    public Transform[] Waypoints;
-
-
+    //public float movementSpeed = 10f;
+    public float jumpHeight = 5f;
+    
     private Rigidbody rb;
     private Transform destination;
     private Vector2 direction;
@@ -19,18 +19,29 @@ public class EnemyMovement : MonoBehaviour
 
     private void Update()
     {
-        Move();
+        
     }
 
     private void Move()
     {
-        destination = 
+        direction = new Vector2(-1,0);
+        //rb.MovePosition(direction*movementSpeed*Time.deltaTime);
     }
 
-    private void FindTarget()
+    private void Jump()
     {
-        direction = 
+        Debug.Log("jump");
+        rb.AddForce(new Vector2(0,jumpHeight));
+        //rb.velocity = new Vector2(0,jumpHeight);
     }
 
+    private void OnCollisionStay(Collision other)
+    {
+        if (other.gameObject.CompareTag("Ground"))
+        {
+            Jump();
+        }
+    }
 
+    
 }

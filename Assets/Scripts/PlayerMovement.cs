@@ -50,9 +50,9 @@ public class PlayerMovement : MonoBehaviour
     void MoveCharacter(Vector2 dir)
     {
         
-        //rb.MovePosition((Vector2)transform.position + (Time.deltaTime * movementSpeed * dir));
+        rb.MovePosition((Vector2)transform.position + (Time.deltaTime * movementSpeed * dir));
        
-        transform.position = (Vector2)transform.position + (Time.deltaTime * movementSpeed * dir);
+        //transform.position = (Vector2)transform.position + (Time.deltaTime * movementSpeed * dir);
         
         
         if (!isGrounded && horizontalMovement < 0)
