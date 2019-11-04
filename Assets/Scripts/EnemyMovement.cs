@@ -15,6 +15,7 @@ public class EnemyMovement : MonoBehaviour
     private void Start()
     {
         rb = this.GetComponent<Rigidbody>();
+        
     }
 
     private void Update()
