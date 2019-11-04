@@ -7,12 +7,14 @@ public class PlayerMovement : MonoBehaviour
 {
     public float movementSpeed = 5f;
     public float jumpHeight = 4f;
+    public float jumpDistance = 0.3f;
 
     private Vector2 directionOfMovement;
     private float horizontalMovement;
     private float verticalMovement;
     private bool isGrounded = false;
     private float playerScaleX;
+    
 
     private Rigidbody rb;
 
@@ -37,18 +39,6 @@ public class PlayerMovement : MonoBehaviour
         
         horizontalMovement = Input.GetAxis("Horizontal");
 
-        if (!isGrounded && horizontalMovement < 0)
-        {
-            directionOfMovement = new Vector2(-1,verticalMovement);
-        }
-        else if (!isGrounded && horizontalMovement > 0)
-        {
-            directionOfMovement = new Vector2(1,verticalMovement);
-        }
-        else if(isGrounded)
-        {
-            directionOfMovement = new Vector2(horizontalMovement,verticalMovement);
-        }
         
     }
 
@@ -64,9 +54,25 @@ public class PlayerMovement : MonoBehaviour
        
         transform.position = (Vector2)transform.position + (Time.deltaTime * movementSpeed * dir);
         
+        
+        if (!isGrounded && horizontalMovement < 0)
+        {
+            directionOfMovement = new Vector2(horizontalMovement -jumpDistance,verticalMovement);
+        }
+        else if (!isGrounded && horizontalMovement > 0)
+        {
+            directionOfMovement = new Vector2(horizontalMovement + jumpDistance,verticalMovement);
+        }
+        else if(isGrounded)
+        {
+            directionOfMovement = new Vector2(horizontalMovement,verticalMovement);
+        }
+        
         if (dir.x < 0) playerScaleX = -1;
         if (dir.x > 0) playerScaleX = 1;
         transform.localScale = new Vector3(playerScaleX, 1f, 1f);
+        
+        
 
     }
 
@@ -76,6 +82,11 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
         isGrounded = false;
 
+    }
+
+    void Crouch()
+    {
+        transform.localScale = new Vector3();
     }
 
     private void OnCollisionStay(Collision other)
