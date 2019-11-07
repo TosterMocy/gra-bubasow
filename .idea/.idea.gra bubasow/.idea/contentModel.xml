@@ -16,6 +16,8 @@
           <e p="PlayerHealth.cs" t="Include" />
           <e p="PlayerMovement.cs" t="Include" />
           <e p="PlayerMovement2.cs" t="Include" />
+          <e p="SingleFace.cs" t="Include" />
+          <e p="VertexManipulator.cs" t="Include" />
         </e>
       </e>
       <e p="gra bubasow.sln" t="IncludeFlat" />
