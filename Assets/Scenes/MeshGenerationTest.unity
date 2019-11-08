@@ -330,7 +330,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a6f2947b5d8b50d4fac48bd46da086f0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -373,6 +373,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vertices: []
   triangles: 
+  rotate: 0
 --- !u!4 &1392831314
 Transform:
   m_ObjectHideFlags: 0
