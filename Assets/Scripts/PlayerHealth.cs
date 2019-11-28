@@ -14,12 +14,14 @@ public class PlayerHealth : MonoBehaviour
         healthPoints = maxHP;
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
+        
         if (other.gameObject.CompareTag("Enemy"))
         {
+            //gameObject.SetActive(false);
             healthPoints = 0;
-            gameObject.SetActive(false);
+        
         }
     }
 }

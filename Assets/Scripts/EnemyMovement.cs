@@ -11,11 +11,12 @@ public class EnemyMovement : MonoBehaviour
     private Rigidbody rb;
     private Transform destination;
     private Vector2 direction;
+    
 
     private void Start()
     {
         rb = this.GetComponent<Rigidbody>();
-        
+
     }
 
     private void Update()
@@ -43,12 +44,13 @@ public class EnemyMovement : MonoBehaviour
             Jump();
         }
     }
-
-    private void OnCollisionEnter(Collision other)
+    
+    /*
+    private void OnTriggerEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            
+            other.gameObject.SetActive(false);
         }
-    }
+    } */
 }

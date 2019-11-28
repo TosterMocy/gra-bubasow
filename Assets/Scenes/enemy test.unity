@@ -131,9 +131,11 @@ GameObject:
   - component: {fileID: 6453215}
   - component: {fileID: 6453214}
   - component: {fileID: 6453213}
-  - component: {fileID: 6453212}
   - component: {fileID: 6453211}
   - component: {fileID: 6453210}
+  - component: {fileID: 6453216}
+  - component: {fileID: 6453217}
+  - component: {fileID: 6453212}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -183,7 +185,7 @@ MeshCollider:
   serializedVersion: 3
   m_Convex: 1
   m_CookingOptions: 14
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 0}
 --- !u!23 &6453213
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -229,7 +231,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6453209}
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: 0}
 --- !u!4 &6453215
 Transform:
   m_ObjectHideFlags: 0
@@ -238,12 +240,43 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6453209}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.04, y: 2.61, z: 0}
+  m_LocalPosition: {x: 0, y: 2.51, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6453216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6453209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c711fb6d4a46a5e479110862fc9ef3e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vertices:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  triangles: 
+  _mesh: {fileID: 0}
+--- !u!114 &6453217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6453209}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9091e4234f82a614ba0452f52e42980b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &613835236
 GameObject:
   m_ObjectHideFlags: 0
@@ -517,6 +550,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BlobTest
+      objectReference: {fileID: 0}
+    - target: {fileID: 1542578822306928176, guid: b4cd4f83cef508f46b6ab24f7dafb158,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 677251401696833822, guid: b4cd4f83cef508f46b6ab24f7dafb158,
         type: 3}

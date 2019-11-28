@@ -11,7 +11,6 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector2 directionOfMovement;
     private float horizontalMovement;
-    private float verticalMovement;
     private bool isGrounded = false;
     private float playerScaleX;
     
@@ -26,8 +25,6 @@ public class PlayerMovement : MonoBehaviour
     
     private void Update()
     {
-        
-        
         //jumping
         if ((Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W)))
         {
@@ -38,8 +35,6 @@ public class PlayerMovement : MonoBehaviour
         }
         
         horizontalMovement = Input.GetAxis("Horizontal");
-
-        
     }
 
     private void FixedUpdate()
@@ -49,25 +44,22 @@ public class PlayerMovement : MonoBehaviour
 
     void MoveCharacter(Vector2 dir)
     {
-        
         rb.MovePosition((Vector2)transform.position + (Time.deltaTime * movementSpeed * dir));
-       
-        //transform.position = (Vector2)transform.position + (Time.deltaTime * movementSpeed * dir);
-        
         
         if (!isGrounded && horizontalMovement < 0)
         {
-            directionOfMovement = new Vector2(horizontalMovement -jumpDistance,verticalMovement);
+            directionOfMovement = new Vector2(horizontalMovement -jumpDistance,0 );
         }
         else if (!isGrounded && horizontalMovement > 0)
         {
-            directionOfMovement = new Vector2(horizontalMovement + jumpDistance,verticalMovement);
+            directionOfMovement = new Vector2(horizontalMovement + jumpDistance,0);
         }
         else if(isGrounded)
         {
-            directionOfMovement = new Vector2(horizontalMovement,verticalMovement);
+            directionOfMovement = new Vector2(horizontalMovement,0);
         }
         
+        //mirror
         if (dir.x < 0) playerScaleX = -1;
         if (dir.x > 0) playerScaleX = 1;
         transform.localScale = new Vector3(playerScaleX, 1f, 1f);
@@ -81,14 +73,8 @@ public class PlayerMovement : MonoBehaviour
         //rb.AddForce(Vector2.up * jumpHeight, ForceMode.Impulse);
         rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
         isGrounded = false;
-
     }
-
-    void Crouch()
-    {
-        transform.localScale = new Vector3();
-    }
-
+    
     private void OnCollisionStay(Collision other)
     {
         if (other.gameObject.CompareTag("Ground"))
