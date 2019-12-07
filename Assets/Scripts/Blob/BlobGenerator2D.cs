@@ -6,13 +6,24 @@ public class BlobGenerator2D : MonoBehaviour
 {
     // Start is called before the first frame update
     public int size = 10;
-    public float distanceBetweenPoints = 10f;
-    public float radius = 3.0f;
+    public float distanceBetweenPoints = 3;
+    public float radius = 5.0f;
+    public bool isPlayer = false;
     public GameObject blob;
     private GameObject midPoint;
     private List<Transform> pointArray = new List<Transform>();
     private List<Transform> OuterPointArray = new List<Transform>();
-
+    void OnDrawGizmos()
+    {
+        // Draw a yellow sphere at the transform's position
+        if(isPlayer)
+            Gizmos.color = Color.yellow;
+        else
+        {
+            Gizmos.color = Color.red;
+        }
+        Gizmos.DrawSphere(transform.position, radius);
+    }
     void Start()
     {
         
@@ -21,6 +32,8 @@ public class BlobGenerator2D : MonoBehaviour
       //  PrepareOuterPoints(distanceBetweenPoints+2f);
         
         MakeCircle(pointArray,radius);
+        
+                 //MakeSquare(pointArray,radius); IN PROGRESS
        // MakeCircle(OuterPointArray,radius+3f);
         
         SetMidPointJoints();
@@ -40,7 +53,7 @@ public class BlobGenerator2D : MonoBehaviour
         {
             var spring = points[i].GetComponent<SpringJoint2D>();
             spring.connectedBody = points[(i + 1) % (size)].GetComponent<Rigidbody2D>();
-            spring.distance = 3f;
+            spring.distance = distanceBetweenPoints;
             spring.frequency = 5f;
         }
     }
@@ -52,7 +65,7 @@ public class BlobGenerator2D : MonoBehaviour
                {
                    midPointSprings[i].enableCollision = true;
                    midPointSprings[i].autoConfigureDistance = false;
-                   midPointSprings[i].distance = 5f;
+                   midPointSprings[i].distance = radius;
                    midPointSprings[i].dampingRatio = 1;
                    midPointSprings[i].frequency = 1f;
                    midPointSprings[i].connectedBody = pointArray[i].GetComponent<Rigidbody2D>();
@@ -90,17 +103,26 @@ public class BlobGenerator2D : MonoBehaviour
     private void PreparePoints(float rad)
     {
         midPoint = Instantiate(blob, this.transform);
+        midPoint.GetComponent<SpriteRenderer>().color = Color.blue;
         midPoint.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+        
+        if(isPlayer)
+            midPoint.AddComponent<BlobMovement>();
+        else
+        {
+            midPoint.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+        }
+        //midPoint.AddComponent<CharacterController>();
+        
         
        for (int i = 0; i < size; i++)
        {
-           GameObject point = Instantiate(blob, midPoint.transform);
+           GameObject point = Instantiate(blob, this.transform);
        
-          
-           point.SetActive(false);
+           if(!isPlayer) point.GetComponent<SpriteRenderer>().color = Color.red;
           
            point.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
-           point.GetComponent<Rigidbody2D>().mass = 1f;
+           point.GetComponent<Rigidbody2D>().mass = 0.5f;
        
            point.AddComponent(typeof(SpringJoint2D));
            point.GetComponent<SpringJoint2D>().enableCollision = true;
@@ -134,7 +156,6 @@ public class BlobGenerator2D : MonoBehaviour
             point.GetComponent<SpringJoint2D>().autoConfigureDistance = false;
             point.GetComponent<SpringJoint2D>().distance = rad;
             point.SetActive(true);
-            point.GetComponent<SpriteRenderer>().color = Color.red;
             OuterPointArray.Add(point.transform);
             
         }
@@ -153,6 +174,8 @@ public class BlobGenerator2D : MonoBehaviour
         }
     }
     
+    
+    
 
     Vector3 SetPointOnCircle(Vector3 center, float circleRadius, int angle)
     {
@@ -164,7 +187,27 @@ public class BlobGenerator2D : MonoBehaviour
     }
     
     
+    void MakeSquare(List<Transform> points, float rad)
+    {
+        Vector3 center = transform.position;
+        for (int i = 0; i < size; i++)
+        {
+            int angle = 360 / size * i;
+            points[i].position = SetPointOnSquare(center, rad, angle);
+        }
+    }
     
+    Vector3 SetPointOnSquare(Vector3 center, float circleRadius, int angle)
+    {
+        Vector3 pos;
+        float cos = Mathf.Cos(angle * Mathf.Deg2Rad);
+        float sin = Mathf.Sin(angle * Mathf.Deg2Rad);
+
+        pos.x = center.x + circleRadius * (cos + cos) *2;
+        pos.y = center.y + circleRadius * (cos + sin);
+        pos.z = center.z;
+        return pos;
+    }
 }
 
 
