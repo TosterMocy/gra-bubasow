@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8620627383190854097}
   - component: {fileID: 1876858946367578599}
   m_Layer: 0
-  m_Name: Blob
+  m_Name: BlobPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

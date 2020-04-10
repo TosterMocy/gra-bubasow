@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +14,18 @@ public class BlobGenerator2D : MonoBehaviour
     private GameObject midPoint;
     private List<Transform> pointArray = new List<Transform>();
     private List<Transform> OuterPointArray = new List<Transform>();
+
+    private Transform[] vertexPoints;
+    
+    
+    //mesh generation
+    private Vector3[] vertices;
+    private int[] triangles;
+    
+    public Mesh _mesh;
+    //private MeshCollider _meshCollider;
+    
+    
     void OnDrawGizmos()
     {
         // Draw a yellow sphere at the transform's position
@@ -24,9 +37,11 @@ public class BlobGenerator2D : MonoBehaviour
         }
         Gizmos.DrawSphere(transform.position, radius);
     }
+    
+
     void Start()
     {
-        
+        vertexPoints=new Transform[size+1];
 
         PreparePoints(distanceBetweenPoints);
       //  PrepareOuterPoints(distanceBetweenPoints+2f);
@@ -42,8 +57,23 @@ public class BlobGenerator2D : MonoBehaviour
         SetPointsJoints(pointArray);
        // SetPointsJoints(OuterPointArray);
 
+        this.gameObject.AddComponent<MeshFilter>();
+       //mesh generation
+       _mesh = new Mesh();
+       GetComponent<MeshFilter>().sharedMesh = _mesh;
+       
+       
+       CreateVertices();
+       CreateFace();
+       
+       
+       UpdateMesh();
 
+    }
 
+    private void Update()
+    {
+        UpdateMesh();
     }
 
     private void SetPointsJoints(List<Transform> points)
@@ -105,6 +135,7 @@ public class BlobGenerator2D : MonoBehaviour
         midPoint = Instantiate(blob, this.transform);
         midPoint.GetComponent<SpriteRenderer>().color = Color.blue;
         midPoint.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
+        //pointArray.Add(midPoint.transform); 
         
         if(isPlayer)
             midPoint.AddComponent<BlobMovement>();
@@ -113,7 +144,9 @@ public class BlobGenerator2D : MonoBehaviour
             midPoint.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
         }
         //midPoint.AddComponent<CharacterController>();
-        
+
+        vertexPoints[0] = midPoint.transform;
+        Debug.Log(vertexPoints[0]);
         
        for (int i = 0; i < size; i++)
        {
@@ -130,9 +163,17 @@ public class BlobGenerator2D : MonoBehaviour
            point.GetComponent<SpringJoint2D>().distance = 1f;
            point.SetActive(true);
            pointArray.Add(point.transform);
-       
+           
+
            midPoint.AddComponent(typeof(SpringJoint2D));
+           
        }
+
+       for (int i = 0; i < pointArray.Count; i++)
+       {
+           vertexPoints[i] = pointArray[i];
+       }
+       
     }
     
     private void PrepareOuterPoints(float rad)
@@ -207,6 +248,57 @@ public class BlobGenerator2D : MonoBehaviour
         pos.y = center.y + circleRadius * (cos + sin);
         pos.z = center.z;
         return pos;
+    }
+
+    
+
+    void CreateVertices()
+    {
+        
+        vertices = new Vector3[size+1];
+        for (int i = 0; i < size; i++)
+        {
+            vertices[i+1] = vertexPoints[i].position;
+            Debug.Log(vertices[i]);
+        }
+
+        vertices[0] = midPoint.transform.position;
+    }
+    void CreateFace()
+    {
+        
+
+        triangles = new int[(size)*3];
+        
+        for (int i = 0; i < size; i++)
+        {
+            triangles[3 * i] = 0;
+            triangles[3 * i + 1] = (i)%size + 1;
+            triangles[3 * i + 2] = (i+1)%size + 1;
+        }
+        
+        /*
+        triangles[size] = j + 1;
+        triangles[size - 1] = j;
+        triangles[size - 2] = 0;*/
+
+        for (int i = 0; i < triangles.Length; i++)
+        {
+            Debug.Log(triangles[i]);
+        }
+        
+        Debug.Log(triangles.Length);
+       
+    }
+    
+    public void UpdateMesh()
+    {
+        _mesh.Clear();
+        _mesh.vertices = vertices;
+        _mesh.triangles = triangles;
+        _mesh.RecalculateNormals();
+
+        //_meshCollider.sharedMesh = _mesh;
     }
 }
 
