@@ -17,6 +17,8 @@ public class BlobGenerator2D : MonoBehaviour
     private List<Transform> OuterPointArray = new List<Transform>();
     private List<Vector3> vertexPoints;
     private MeshFilter _meshFilter;
+
+    private List<Vector2> _UV;
     
     
     //mesh generation
@@ -45,18 +47,21 @@ public class BlobGenerator2D : MonoBehaviour
         SetPointsJoints(pointArray);
         this.gameObject.AddComponent<MeshFilter>();
         this.gameObject.AddComponent<MeshRenderer>();
-        this.gameObject.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/kitty3");
+        this.gameObject.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/blobby");
         
         _mesh = new Mesh();
 
         
         vertexPoints = new List<Vector3>();
-
+        _UV = new List<Vector2>();
         
-        vertexPoints.Add(midPoint.transform.position);
+        vertexPoints.Add(midPoint.transform.localPosition);
+        _UV.Add(Vector2.one * 0.5f);
+        
         for (int i = 1; i < size + 1; i++)
         {
-            vertexPoints.Add( pointArray[i - 1].position);
+            vertexPoints.Add( pointArray[i - 1].localPosition);
+            _UV.Add(((Vector2)pointArray[i - 1].localPosition.normalized + Vector2.one) *0.5f);
         }
 
         var tris = 3 * vertexPoints.Count +3;
@@ -79,24 +84,26 @@ public class BlobGenerator2D : MonoBehaviour
         _mesh.vertices = vertexPoints.ToArray();
         _mesh.triangles = triangles.ToArray();
         _meshFilter = gameObject.GetComponent<MeshFilter>();
-
+        _mesh.uv = _UV.ToArray();
         _meshFilter.mesh = _mesh;
 
 
     }
 
+    
     private void LateUpdate()
     {
-        
         vertexPoints[0] = midPoint.transform.localPosition;
         for (int i = 1; i < size + 1; i++)
         {
             vertexPoints[i] = pointArray[i - 1].localPosition;
+            _UV[i] = (( ((Vector2)pointArray[i - 1].position - (Vector2)midPoint.transform.position).normalized + Vector2.one) *0.5f);;
         }
 
         _mesh.Clear();
         _mesh.vertices = vertexPoints.ToArray();
         _mesh.triangles = triangles.ToArray();
+        _mesh.uv = _UV.ToArray();
         _meshFilter.mesh = _mesh;
         _mesh.RecalculateNormals();
     }
@@ -111,6 +118,7 @@ public class BlobGenerator2D : MonoBehaviour
             spring.connectedBody = points[(i + 1) % (size)].GetComponent<Rigidbody2D>();
            // spring.distance = distanceBetweenPoints;
             spring.frequency = 5f;
+            spring.autoConfigureConnectedAnchor = true;
             spring.autoConfigureDistance = true;
 
         }
@@ -135,7 +143,8 @@ public class BlobGenerator2D : MonoBehaviour
         midPoint = Instantiate(blob, this.transform);
         midPoint.transform.localScale = Vector3.one *2.1f;
         midPoint.GetComponent<Rigidbody2D>().mass = 1f;
-        //midPoint.GetComponent<SpriteRenderer>().color = Color.blue;
+        //midPoint.GetComponent<SpriteRenderer>().enabled = true;
+            
         midPoint.GetComponent<Rigidbody2D>().constraints = RigidbodyConstraints2D.FreezeRotation;
         if(isPlayer)
             midPoint.AddComponent<BlobMovement>();

@@ -20,6 +20,7 @@
           <e p="SimpleMesh.cs" t="Include" />
           <e p="SingleFace.cs" t="Include" />
         </e>
+        <e p="ThreeDBlob.cs" t="Include" />
       </e>
       <e p="GraBubasow.sln" t="IncludeFlat" />
       <e p="obj" t="ExcludeRecursive" />
