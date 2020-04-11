@@ -10,6 +10,7 @@ public class SingleFace : MonoBehaviour
     public Vector3[] vertices;
     public int[] triangles;
 
+
     [Range(0, 2)]  //it tells the editor to make a slider with a range of 0-2
     public int rotate = 0;
 
@@ -22,18 +23,8 @@ public class SingleFace : MonoBehaviour
         
         CreateFace();
         UpdateMesh();
-        
-        
     }
-
-    private void Update()
-    {
-        //clockwise winding
-        triangles[0] = (0 + rotate) % 3; //BL
-        triangles[1] = (1 + rotate) % 3; //TL
-        triangles[2] = (2 + rotate) % 3; //BR
-        UpdateMesh();
-    }
+    
 
     public void UpdateMesh()
     {
@@ -47,17 +38,24 @@ public class SingleFace : MonoBehaviour
     {
         
         //vertices
-        vertices = new Vector3[3];
+        vertices = new Vector3[4];
         
         vertices[0] = new Vector3(0,0,0); //bottomleft 
         vertices[1] = new Vector3(0,1,0); //top left 
         vertices[2] = new Vector3(1,0,0); //bottom right 
+        vertices[3] = new Vector3(1,3,0); //top  right 
+
         
         //triangles
-        triangles = new int[3];
+        triangles = new int[6];
 
         triangles[0] = 0; //Bottom Left
         triangles[1] = 1; //Top Left
         triangles[2] = 2; //Bottom Right
+        
+        triangles[3] = 1; //Bottom Left
+        triangles[4] = 3; //Top Left
+        triangles[5] = 2; //Bottom Right
+
     }
 }
