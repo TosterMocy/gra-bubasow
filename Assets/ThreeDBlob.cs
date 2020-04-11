@@ -8,11 +8,13 @@ public class ThreeDBlob : MonoBehaviour
     public GameObject _prefabPoint;
 
     private List<Vector3> vertices;
+    private List<Transform> midPointChildren;
     private GameObject midPoint;
     private MeshFilter meshFilter;
     private MeshRenderer _meshRenderer;
+    private Mesh _mesh;
     
-    private void Start()
+    private void Awake()
     {
          meshFilter = gameObject.GetComponent<MeshFilter>();
          _meshRenderer = gameObject.GetComponent<MeshRenderer>();
@@ -30,35 +32,34 @@ public class ThreeDBlob : MonoBehaviour
         {
             vertices.Add(child.position);
         }
-        var _mesh = new  Mesh();
+        _mesh = new  Mesh();
         _mesh.vertices = vertices.ToArray();
         _mesh.triangles = meshFilter.mesh.triangles;
         _meshRenderer.enabled = true;
         meshFilter.mesh = _mesh;
         _meshRenderer.material = Resources.Load<Material>("Materials/blobby");
 
+        midPointChildren = new List<Transform>();
         foreach (Transform child in midPoint.transform)
         {
            var springJoint = midPoint.AddComponent<SpringJoint>();
            springJoint.connectedBody = child.GetComponent<Rigidbody>();
            springJoint.spring = 10f;
            springJoint.autoConfigureConnectedAnchor = true;
-
            child.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+           midPointChildren.Add(child);
         }
     }
 
     private void LateUpdate()
     {
-        int i = 0;
-        foreach (Transform child in midPoint.transform)
+        for(int i =0; i<midPointChildren.Count;i++)
         {
-            vertices[i] = child.position;
-            i++;
+            vertices[i] = midPointChildren[i].position;
         }
-        var _mesh = new  Mesh();
         _mesh.vertices = vertices.ToArray();
         _mesh.triangles = meshFilter.mesh.triangles;
-
-        meshFilter.mesh = _mesh;    }
+        meshFilter.mesh = _mesh;
+        
+    }
 }
