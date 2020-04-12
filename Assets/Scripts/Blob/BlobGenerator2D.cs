@@ -79,6 +79,8 @@ public class BlobGenerator2D : MonoBehaviour
         triangles.Add(0);
         triangles.Add(size);
         triangles.Add(1);
+
+        midPoint.GetComponent<CircleCollider2D>().radius = 0.01f;
         
         _mesh.Clear();
         _mesh.vertices = vertexPoints.ToArray();
@@ -97,7 +99,7 @@ public class BlobGenerator2D : MonoBehaviour
         for (int i = 1; i < size + 1; i++)
         {
             vertexPoints[i] = pointArray[i - 1].localPosition;
-            _UV[i] = (( ((Vector2)pointArray[i - 1].position - (Vector2)midPoint.transform.position).normalized + Vector2.one) *0.5f);;
+            _UV[i] = ( ((Vector2)pointArray[i - 1].position - (Vector2)midPoint.transform.position).normalized + Vector2.one) *0.5f;
         }
 
         _mesh.Clear();
