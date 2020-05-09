@@ -31,10 +31,14 @@ public class BlobMovement : MonoBehaviour
         {
             rb.AddForce(Vector2.left*force);
         }
+        if (Input.GetKey(KeyCode.S))
+        {
+            rb.AddForce(Vector2.down*force);
+        }
     }
 
     private void Update()
     {
-        Camera.main.transform.position = new Vector3(pos.position.x,pos.position.y,-9);
+        Camera.main.transform.position = new Vector3(pos.position.x,pos.position.y,-15);
     }
 }

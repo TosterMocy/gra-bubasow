@@ -42,13 +42,11 @@ public class BlobGenerator2D : MonoBehaviour
     void Start()
     {
         PreparePoints();
+        AddComponents();
         MakeCircle(pointArray,radius);
         SetMidPointJoints();
         SetPointsJoints(pointArray);
-        this.gameObject.AddComponent<MeshFilter>();
-        this.gameObject.AddComponent<MeshRenderer>();
-        this.gameObject.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/blobby");
-        
+      
         _mesh = new Mesh();
 
         
@@ -92,7 +90,14 @@ public class BlobGenerator2D : MonoBehaviour
 
     }
 
-    
+    private void AddComponents()
+    {
+        gameObject.AddComponent<MeshFilter>();
+        gameObject.AddComponent<MeshRenderer>();
+        gameObject.GetComponent<MeshRenderer>().material = Resources.Load<Material>("Materials/blobby");
+    }
+
+
     private void LateUpdate()
     {
         vertexPoints[0] = midPoint.transform.localPosition;
